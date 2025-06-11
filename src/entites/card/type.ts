@@ -3,5 +3,5 @@ export type CardType ={
     color: string,
     createdAt:number,
     expiresAt:number,
-    lifeTime:number
+    countdown:number
 }

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { type CardType } from "../entites/card/type";
 import { Card } from "../entites/card/card";
 import { createCard } from "../shared/lib/random";
+import './cardSpawner.css'
 
 export const CardSpawner = () => {
-  const [count, setCount] = useState<number>(0);
-  const [intervalMs, setIntervalMs] = useState<number>(10);
+  const [count, setCount] = useState<number>(1);
+  const [intervalMs, setIntervalMs] = useState<number>(2);
 
   const [cards, setCards] = useState<CardType[]>([]);
 
@@ -21,12 +22,10 @@ export const CardSpawner = () => {
     setCards((prevCards) =>
       prevCards.map((card) =>
         card.id === id
-          ? { ...card, expiresAt: card.lifeTime }
+          ? { ...card, expiresAt: card.countdown }
           : card
       )
-
     )
-    console.log('click')
   }
 
   useEffect(() => {
@@ -39,34 +38,41 @@ export const CardSpawner = () => {
       )
     }, 1000)
     return () => clearInterval(interval)
-  })
+  },[])
 
 
   useEffect(() => {
     const interval = setInterval(generateCards, intervalMs * 1000)
     return () => clearInterval(interval)
-  })
+  },[intervalMs, count])
 
   return (
-    <div className="p-4">
-      <div className="flex gap-2 mb-4">
+    <div className="container">
+    <h1>Генератор карточек</h1>
+    <div className="controls">
+      <label>
+        Кол-во карточек
+        <br/>
         <input
           type="number"
           min={1}
           value={count}
           onChange={e => setCount(Number(e.target.value || 1))}
-          className="border p-1"
         />
+      </label>
+      <label>
+        Интервал (сек)
+        <br/>
         <input
           type="number"
           min={1}
           value={intervalMs}
           onChange={e => setIntervalMs(Number(e.target.value || 1))}
-          className="border p-1"
         />
-      </div>
+      </label>
+    </div>
 
-
+    <div className="cards-wrapper">
       {cards.map(card => (
         <Card
           key={card.id}
@@ -74,7 +80,7 @@ export const CardSpawner = () => {
           onClick={() => handleCardClick(card.id)}
         />
       ))}
-
     </div>
+  </div>
   );
 };

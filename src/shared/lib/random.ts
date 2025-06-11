@@ -7,10 +7,10 @@ export const getRandomColor = (): string => {
 export const createCard=():CardType=>{
     const expires=Math.floor(Math.random() * (10 - 2 + 1)) + 2
     return{
-        id: Date.now()+Math.floor(Math.random() * (100 - 2 + 1)) + 2,
+        id: Date.now()+1000+Math.floor(Math.random() * 1000) ,
         color: getRandomColor(),
         createdAt:Date.now(),
         expiresAt:expires,
-        lifeTime:expires,
+        countdown:expires,
     }
 }
