@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { type CardType } from "../entites/card/type";
 import { Card } from "../entites/card/card";
 import { createCard } from "../shared/lib/random";
